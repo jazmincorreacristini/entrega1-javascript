@@ -1,78 +1,22 @@
-// Definición: variables y constantes
+// Array: productos de cuidado de la piel y precios
 const productos = [
-    {
-        tipo: "seca",
-        nombre: "Crema hidratante intensiva"
-    },
-    {
-        tipo: "grasa",
-        nombre: "Gel limpiador facial"
-    },
-    {
-        tipo: "mixta",
-        nombre: "Crema de día"
-    }
+    { id: 1, tipoDePiel: 'seca', edadMin: 0, edadMax: 29, nombre: 'Crema Hidratante Sferine', precio: 80 },
+    { id: 2, tipoDePiel: 'seca', edadMin: 30, edadMax: 100, nombre: 'Crema Hidratante Sferine con SPF', precio: 80 },
+    { id: 3, tipoDePiel: 'grasa', edadMin: 0, edadMax: 29, nombre: 'Gel Ultra Limpiador', precio: 57 },
+    { id: 4, tipoDePiel: 'grasa', edadMin: 30, edadMax: 100, nombre: 'Gel Ultra Limpiador con SPF', precio: 57 },
+    { id: 5, tipoDePiel: 'mixta', edadMin: 0, edadMax: 29, nombre: 'Crema de día Fresh', precio: 70 },
+    { id: 6, tipoDePiel: 'mixta', edadMin: 30, edadMax: 100, nombre: 'Crema de día Fresh con SPF', precio: 70 },
 ];
 
-let resultado = "";
-
-// Algoritmo con un condicional
-function sugerirLimpiezaPiel(tipoPiel, momentoDia) {
-    let limpiezaSugerida = "";
-
-    if (tipoPiel === "grasa") {
-        limpiezaSugerida = "Lavar tu rostro con un limpiador facial profundo para piel grasa, recomendamos nuestro Kit para piel oleosa";
-    } else if (tipoPiel === "seca") {
-        limpiezaSugerida = "Usar aceite desmaquillante, seguido de una crema hidratante intensa";
-    } else {
-        limpiezaSugerida = "Usar un limpiador suave para piel mixta";
-    }
-
-    if (momentoDia === "noche") {
-        limpiezaSugerida += "1 hora antes de ir a dormir";
-    } else {
-        limpiezaSugerida += "Lavar rostro con agua fría a la mañana";
-    }
-    
-    return limpiezaSugerida;
-}
-
-// Algoritmo usando un ciclo/bucle
-
-function listarProductos() {
-    const productosDisponibles = [
-        "Crema Hidratante Sferine",
-        "Gel Ultra Limpiador",
-        "Crema de día Fresh"
-    ];
-
-    let mensaje = "Nuestros productos disponibles son:\n";
-    for (let i = 0; i < productosDisponibles.length; i++) {
-        mensaje += (i + 1) + ". " + productosDisponibles[i] + "\n";
-    }
-    alert(mensaje);
-}
-
-// Simulador interactivo de SkinCare
-
+// Función para recomendar un producto, según el tipo de piel, edad y precio.
 function recomendarProducto(tipoDePiel, edad) {
-    let productoRecomendado;
-
-    if (tipoDePiel === 'seca') {
-        productoRecomendado = 'Crema Hidratante Sferine';
-    } else if (tipoDePiel === 'grasa') {
-        productoRecomendado = 'Gel Ultra Limpiador';
-    } else if (tipoDePiel === 'mixta') {
-        productoRecomendado = 'Crema de día Fresh';
-    }
-
-    if (edad >= 30) {
-        productoRecomendado += ' con SPF';
-    }
-
-    return productoRecomendado;
+    const productoRecomendado = productos.find(producto => 
+        producto.tipoDePiel === tipoDePiel && edad >= producto.edadMin && edad <= producto.edadMax
+    );
+    return productoRecomendado ? productoRecomendado : { nombre: 'No se encontró un producto adecuado para ti.', precio: 0 };
 }
 
+// Función para ejecutar el consultor/simulador de cuidado de la piel.
 function simuladorCuidadoPiel() {
     let tipoDePiel;
     let edad;
@@ -84,14 +28,12 @@ function simuladorCuidadoPiel() {
 
         if (tipoDePiel && !isNaN(edad)) {
             const productoRecomendado = recomendarProducto(tipoDePiel, edad);
-            const resultado = `Basado en tu tipo de piel y edad, te recomendamos usar: ${productoRecomendado}`;
-            alert(resultado);
+            const resultado = `Basado en tu tipo de piel y edad, te recomendamos usar: ${productoRecomendado.nombre}. Precio: $${productoRecomendado.precio}`;
+            console.log(resultado);
+            document.getElementById('resultado').innerText = resultado;
             continuar = false;
         } else {
             alert("Por favor, ingrese información válida.");
         }
     } while (continuar);
 }
-
-simuladorCuidadoPiel(); 
-
